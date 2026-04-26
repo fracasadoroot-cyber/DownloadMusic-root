@@ -1,0 +1,9 @@
+.venv/
+downloads/
+*.mp3
+*.m4a
+*.webm
+*.part
+*.temp
+__pycache__/
+*.py[cod]
