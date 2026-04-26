@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Fracasadoroot
+# Fracasadoroot autor v1-1 Terminal
 from __future__ import annotations
 
 import argparse
@@ -30,7 +30,7 @@ def _build_ydl_command(args: argparse.Namespace, url: str) -> list[str]:
     out_dir = (base_out_dir / ("videos" if args.video else "audio")).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Base command
+    # la base ss
     cmd: list[str] = [
         sys.executable,
         "-m",
@@ -46,9 +46,7 @@ def _build_ydl_command(args: argparse.Namespace, url: str) -> list[str]:
     ]
 
     if args.video:
-        # Video: preferimos MP4 cuando sea posible.
-        # - bestvideo*+bestaudio: mejor calidad (requiere merge con ffmpeg)
-        # - fallback a "best" si no hay streams separados
+       
         cmd += [
             "-f",
             "bestvideo*+bestaudio/best",
@@ -139,7 +137,7 @@ def _parse_args(argv: list[str]) -> argparse.Namespace:
     p.add_argument(
         "--template",
         default="%(title)s [%(id)s].%(ext)s",
-        help="Plantilla de nombre de archivo (default: \"%(title)s [%(id)s].%(ext)s\").",
+        help="Plantilla de nombre de archivo (default: \"%%(title)s [%%(id)s].%%(ext)s\").",
     )
     kind = p.add_mutually_exclusive_group()
     kind.add_argument("--video", action="store_true", help="Descarga video (MP4 cuando sea posible).")
@@ -186,20 +184,17 @@ def _parse_args(argv: list[str]) -> argparse.Namespace:
     p.set_defaults(overwrite=False)
     args = p.parse_args(argv)
 
-    # Política:
-    # - default: single (no-playlist)
-    # - --mix: permite playlist/mix
-    # - --single o --no-playlist: fuerza single
+   
     if getattr(args, "mix", False):
         args.no_playlist = False
     elif getattr(args, "single", False) or getattr(args, "no_playlist", False):
         args.no_playlist = True
 
-    # Default: NO sobrescribir
+
     if getattr(args, "no_overwrite", False):
         args.overwrite = False
 
-    # Default: audio (si no escogió nada)
+
     if getattr(args, "audio", False):
         args.video = False
 
@@ -229,7 +224,7 @@ def main(argv: list[str]) -> int:
         urls.extend(args.url)
 
     if not urls:
-        print("No diste URLs. Ejemplo: ytmusic-dl https://youtu.be/XXXX", file=sys.stderr)
+        print("No diste URLs. Ejemplo: ytmusic-dl https://youtu.be/taltal", file=sys.stderr)
         return 2
 
     _ensure_ffmpeg()
